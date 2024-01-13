@@ -130,7 +130,7 @@ export class OrdersService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      throw new InternalServerErrorException('Error deleting order');
+      return new InternalServerErrorException('Error deleting order');
     }
   }
 }

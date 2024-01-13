@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, HttpCode, Res, UseFilters } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -39,9 +39,7 @@ export class OrdersController {
   @Delete(':id')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles('ADMINISTRATOR', 'MANAGER')
-  @HttpCode(204)
   remove(@Param('id') id: string) {
-    this.ordersService.remove(+id);
-    return null;
+    return this.ordersService.remove(+id);
   }
 }

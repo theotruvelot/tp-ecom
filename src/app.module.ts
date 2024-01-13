@@ -10,6 +10,7 @@ import { OrdersController } from './orders/orders.controller';
 import { OrdersService } from './orders/orders.service';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
+import { APP_FILTER } from '@nestjs/core';
 ;
 @Module({
   imports: [AuthModule,],
