@@ -1,0 +1,63 @@
+model User {
+    id Int @id @default(autoincrement())
+    firstName String
+    lastName String
+    email String @unique
+    password String 
+    role Role @default(CUSTOMER)
+    orders Order[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Order {
+    id Int @id @default(autoincrement())
+    userId Int
+    user User @relation(fields: [userId], references: [id])
+    status OrderStatus @default(PENDING)
+    orderProducts OrderProduct[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Product {
+    id Int @id @default(autoincrement())
+    name String
+    description String
+    price Float
+    quantity Int @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    orderProducts OrderProduct[]
+}
+
+model OrderProduct {
+    id Int @id @default(autoincrement())
+    orderId Int
+    order Order @relation(fields: [orderId], references: [id])
+    productId Int
+    product Product @relation(fields: [productId], references: [id])
+    quantity Int
+}
+
+enum Role {
+    ADMINISTRATOR
+    MANAGER
+    CUSTOMER
+}
+
+enum OrderStatus {
+    PENDING
+    COMPLETED
+    CANCELLED
+    PAID
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")   
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
