@@ -10,10 +10,14 @@ import { OrdersController } from './orders/orders.controller';
 import { OrdersService } from './orders/orders.service';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
-import { APP_FILTER } from '@nestjs/core';
+import { ThrottlerModule } from '@nestjs/throttler';
 ;
 @Module({
-  imports: [AuthModule,],
+  imports: [AuthModule, ThrottlerModule.forRoot([{
+    ttl: 60,
+    limit: 30,
+  }]),
+],
   controllers: [AppController, ProductsController, OrdersController, UsersController],
   providers: [AppService, ProductsService, PrismaService, JwtService, OrdersService, UsersService],
 })
